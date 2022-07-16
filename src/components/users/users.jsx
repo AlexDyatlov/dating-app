@@ -7,22 +7,18 @@ const Users = () => {
 
   const [users, setUsers] = useState(usersArr);
 
-  const handleDeleteUser = (userObj) => {
-    setUsers((prevState) =>
-      prevState.filter((user) => {
-        return user !== userObj;
-      }),
-    );
+  const handleDeleteUser = (userId) => {
+    setUsers(users.filter((user) => user._id !== userId));
   };
 
-  const renderMessage = () => {
-    return users.length !== 0 ? (
-      <div className="d-inline-block px-4 py-2 mb-3 mt-1 fs-3 bg-primary text-white fw-bold rounded-3">
-        {users.length} человек тусанет с тобой сегодня
-      </div>
-    ) : (
-      <div className="d-inline-block px-4 py-2 mb-3 mt-1 fs-3 bg-danger text-white fw-bold rounded-3">Никто не тусанет с тобой сегодня</div>
-    );
+  const renderMessage = (number) => {
+    const lastOne = Number(number.toString().slice(-1));
+
+    if (number > 4 && number < 15) return 'человек тусанет';
+    if ([2, 3, 4].indexOf(lastOne) >= 0) return 'человека тусанут';
+    if (lastOne === 1) return 'человек тусанет';
+
+    return 'человек тусанет';
   };
 
   const renderTable = () => {
@@ -44,8 +40,8 @@ const Users = () => {
               <tr key={user._id}>
                 <th scope="row">{user.name}</th>
                 <td>
-                  {user.qualities.map((label, index) => (
-                    <span className={'mx-1 p-2 badge bg-' + label.color} key={index}>
+                  {user.qualities.map((label) => (
+                    <span className={'mx-1 p-2 badge bg-' + label.color} key={label._id}>
                       {label.name}
                     </span>
                   ))}
@@ -54,7 +50,7 @@ const Users = () => {
                 <td>{user.completedMeetings}</td>
                 <td>{user.rate} /5</td>
                 <td>
-                  <button type="button" className="btn btn-danger" onClick={() => handleDeleteUser(user)}>
+                  <button type="button" className="btn btn-danger" onClick={() => handleDeleteUser(user._id)}>
                     delete
                   </button>
                 </td>
@@ -68,7 +64,11 @@ const Users = () => {
 
   return (
     <>
-      {renderMessage()}
+      <h2>
+        <span className={'badge ' + (users.length > 0 ? 'bg-primary' : 'bg-danger')}>
+          {users.length > 0 ? `${users.length + ' ' + renderMessage(users.length)} с тобой сегодня` : 'Никто с тобой не тусанет'}
+        </span>
+      </h2>
       {renderTable()}
     </>
   );
