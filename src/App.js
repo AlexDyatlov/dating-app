@@ -13,10 +13,21 @@ function App() {
     setUsers(users.filter((user) => user._id !== userId));
   };
 
+  const handleToggleBookMark = (id) => {
+    setUsers(users.map((user) =>
+      user._id === id
+        ? {
+          ...user,
+          bookmark: !user.bookmark,
+        }
+        : user,
+    ))
+  }
+
   return (
     <>
       <Message length={users.length} />
-      <Users handleDeleteUser={handleDeleteUser} users={users} />
+      <Users handleDeleteUser={handleDeleteUser} handleToggleBookMark={handleToggleBookMark} users={users} />
     </>
   )
 }
