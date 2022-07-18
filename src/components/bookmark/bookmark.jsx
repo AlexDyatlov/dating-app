@@ -1,9 +1,9 @@
 import React from 'react';
 
-const bookmark = ({ handleToggleBookMark, bookmark, _id }) => {
+const bookmark = ({ status, ...rest }) => {
   return (
-    <button onClick={() => handleToggleBookMark(_id)}>
-      <i className={'bi bi-bookmark' + (bookmark ? '-fill' : '')}></i>
+    <button {...rest}>
+      <i className={'bi bi-bookmark' + (status ? '-heart-fill' : '')}></i>
     </button>
   );
 };

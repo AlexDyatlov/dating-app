@@ -27,7 +27,7 @@ function App() {
   return (
     <>
       <Message length={users.length} />
-      <Users handleDeleteUser={handleDeleteUser} handleToggleBookMark={handleToggleBookMark} users={users} />
+      <Users onDeleteUser={handleDeleteUser} onToggleBookMark={handleToggleBookMark} users={users} />
     </>
   )
 }
