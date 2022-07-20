@@ -14,22 +14,28 @@ function App() {
   };
 
   const handleToggleBookMark = (id) => {
-    setUsers(users.map((user) =>
-      user._id === id
-        ? {
-          ...user,
-          bookmark: !user.bookmark,
-        }
-        : user,
-    ))
-  }
+    setUsers(
+      users.map((user) =>
+        user._id === id
+          ? {
+            ...user,
+            bookmark: !user.bookmark
+          }
+          : user
+      )
+    );
+  };
 
   return (
     <>
       <Message length={users.length} />
-      <Users onDeleteUser={handleDeleteUser} onToggleBookMark={handleToggleBookMark} users={users} />
+      <Users
+        onDeleteUser={handleDeleteUser}
+        onToggleBookMark={handleToggleBookMark}
+        users={users}
+      />
     </>
-  )
+  );
 }
 
 export default App;

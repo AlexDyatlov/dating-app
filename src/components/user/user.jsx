@@ -12,7 +12,7 @@ const user = ({
   rate,
   bookmark,
   onDeleteUser,
-  onToggleBookMark,
+  onToggleBookMark
 }) => {
   return (
     <tr>
@@ -29,7 +29,11 @@ const user = ({
         <Bookmark onClick={() => onToggleBookMark(_id)} status={bookmark} />
       </td>
       <td>
-        <button type="button" className="btn btn-danger" onClick={() => onDeleteUser(_id)}>
+        <button
+          type="button"
+          className="btn btn-danger"
+          onClick={() => onDeleteUser(_id)}
+        >
           delete
         </button>
       </td>

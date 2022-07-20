@@ -10,9 +10,9 @@ const Users = ({ users, ...rest }) => {
   const pageSize = 4;
 
   const [currentPage, setCurrentPage] = useState(1);
-  
+
   const handlePageChange = (pageIndex) => {
-    setCurrentPage(pageIndex)
+    setCurrentPage(pageIndex);
   };
 
   const userCrop = paginate(users, currentPage, pageSize);
@@ -38,7 +38,7 @@ const Users = ({ users, ...rest }) => {
           </tbody>
         </table>
       )}
-      <Pagination 
+      <Pagination
         itemsCount={count}
         pageSize={pageSize}
         currentPage={currentPage}
