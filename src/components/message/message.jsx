@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const message = ({ length }) => {
+const Message = ({ length }) => {
   const renderMessage = (number) => {
     const lastOne = Number(number.toString().slice(-1));
 
@@ -22,4 +23,8 @@ const message = ({ length }) => {
   );
 };
 
-export default message;
+Message.propTypes = {
+  length: PropTypes.number.isRequired
+};
+
+export default Message;
