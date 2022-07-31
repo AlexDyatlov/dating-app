@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-import Message from './components/message/message';
 import Users from './components/users/users';
 
 import api from './api';
@@ -27,14 +26,11 @@ function App() {
   };
 
   return (
-    <>
-      <Message length={users.length} />
-      <Users
-        onDeleteUser={handleDeleteUser}
-        onToggleBookMark={handleToggleBookMark}
-        users={users}
-      />
-    </>
+    <Users
+      onDeleteUser={handleDeleteUser}
+      onToggleBookMark={handleToggleBookMark}
+      users={users}
+    />
   );
 }
 

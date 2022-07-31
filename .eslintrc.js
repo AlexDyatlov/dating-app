@@ -17,7 +17,9 @@ module.exports = {
     semi: [2, 'always'],
     'react/prop-types': 'off',
     'eol-last': ['error', 'always'],
-    'space-before-function-paren': ['error', 'never'],
+    'space-before-function-paren': [
+      'error',
+      { anonymous: 'always', named: 'never' }],
     quotes: ['error', 'single']
   },
   settings: {
