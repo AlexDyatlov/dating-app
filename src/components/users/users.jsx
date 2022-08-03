@@ -32,7 +32,7 @@ const Users = ({ users: allUsers, ...rest }) => {
   }, [selectedProf]);
 
   const filteredUsers = selectedProf
-    ? allUsers.filter((user) => user.profession === selectedProf)
+    ? allUsers.filter((user) => user.profession.name === selectedProf.name)
     : allUsers;
 
   const count = filteredUsers.length;
@@ -43,16 +43,18 @@ const Users = ({ users: allUsers, ...rest }) => {
 
   return (
     <div className="d-flex">
-      {profession &&
+      {profession && (
         <div className="d-flex flex-column flex-shrink-0 p-3">
           <GroupList
             selectedItem={selectedProf}
             items={profession}
             onItemSelect={handleProfessionSelect}
           />
-          <button className="btn btn-secondary mt-2" onClick={clearFilter}>Очистить</button>
+          <button className="btn btn-secondary mt-2" onClick={clearFilter}>
+            Очистить
+          </button>
         </div>
-      }
+      )}
       <div className="d-flex flex-column w-100">
         <Message length={count} />
         {count > 0 && (
@@ -89,7 +91,7 @@ const Users = ({ users: allUsers, ...rest }) => {
 };
 
 Users.propTypes = {
-  users: PropTypes.arrayOf(PropTypes.any.isRequired)
+  allUsers: PropTypes.arrayOf(PropTypes.any.isRequired)
 };
 
 export default Users;
