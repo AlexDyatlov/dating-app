@@ -15,7 +15,7 @@ const Users = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [profession, setProfession] = useState();
   const [selectedProf, setSelectedProf] = useState();
-  const [sortBy, setSortBy] = useState({ path: 'name', order: 'asc' });
+  const [sortBy, setSortBy] = useState({ path: 'name', order: 'asc', icon: 'up' });
   const [users, setUsers] = useState();
 
   useEffect(() => {

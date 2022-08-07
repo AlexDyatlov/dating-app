@@ -6,12 +6,14 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
     if (selectedSort.path === item) {
       onSort({
         ...selectedSort,
-        order: selectedSort.order === 'asc' ? 'desc' : 'asc'
+        order: selectedSort.order === 'asc' ? 'desc' : 'asc',
+        icon: selectedSort.icon === 'up' ? 'down' : 'up'
       });
     } else {
       onSort({
         path: item,
-        order: 'asc'
+        order: 'asc',
+        icon: 'up'
       });
     }
   };
@@ -31,6 +33,10 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
             key={column}
           >
             {columns[column].name}
+            {selectedSort.path === columns[column].path
+              ? <i className={`bi bi-caret-${selectedSort.icon}-fill`}></i>
+              : null
+            }
           </th>
         ))}
       </tr>
