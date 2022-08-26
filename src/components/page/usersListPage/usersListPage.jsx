@@ -2,15 +2,15 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
-import api from '../../api';
-import { paginate } from '../../utils/paginate';
+import api from '../../../api';
+import { paginate } from '../../../utils/paginate';
 
-import Pagination from '../pagination/pagination';
-import GroupList from '../groupList/groupList';
-import Message from '../message/message';
-import UsersTable from '../usersTable/usersTable';
+import Pagination from '../../common/pagination/pagination';
+import GroupList from '../../common/groupList/groupList';
+import Message from '../../ui/message/message';
+import UsersTable from '../../ui/usersTable/usersTable';
 
-const Users = () => {
+const UsersListPage = () => {
   const pageSize = 8;
   const [currentPage, setCurrentPage] = useState(1);
   const [profession, setProfession] = useState();
@@ -128,8 +128,8 @@ const Users = () => {
   return 'loading...';
 };
 
-Users.propTypes = {
+UsersListPage.propTypes = {
   users: PropTypes.arrayOf(PropTypes.any.isRequired)
 };
 
-export default Users;
+export default UsersListPage;
