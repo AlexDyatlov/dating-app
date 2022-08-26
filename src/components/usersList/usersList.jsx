@@ -17,6 +17,7 @@ const Users = () => {
   const [selectedProf, setSelectedProf] = useState();
   const [sortBy, setSortBy] = useState({ path: 'name', order: 'asc', icon: 'up' });
   const [users, setUsers] = useState();
+  const [text, setText] = useState();
 
   useEffect(() => {
     api.users.fetchAll().then((data) => setUsers(data));
@@ -43,8 +44,14 @@ const Users = () => {
     setCurrentPage(pageIndex);
   };
 
+  const handleSearch = ({ target }) => {
+    setText(prevState => target.value);
+    setSelectedProf(undefined);
+  };
+
   const handleProfessionSelect = (item) => {
     setSelectedProf(item);
+    setText('');
   };
 
   const handleSort = (item) => {
@@ -60,9 +67,15 @@ const Users = () => {
   }, [selectedProf]);
 
   if (users) {
-    const filteredUsers = selectedProf
-      ? users.filter((user) => user.profession.name === selectedProf.name)
-      : users;
+    let filteredUsers = [...users];
+
+    if (selectedProf) {
+      filteredUsers = filteredUsers.filter((user) => user.profession.name === selectedProf.name);
+    };
+
+    if (text) {
+      filteredUsers = filteredUsers.filter((user) => user.name.toLowerCase().includes(text.toLowerCase()));
+    };
 
     const count = filteredUsers.length;
     const sortedUsers = _.orderBy(filteredUsers, [sortBy.path], [sortBy.order]);
@@ -87,6 +100,9 @@ const Users = () => {
         )}
         <div className="d-flex flex-column w-100">
           <Message length={count} />
+          <div className="mb-3">
+            <input type="text" className="form-control" placeholder='Поиск...' onChange={handleSearch} value={text || ''}/>
+          </div>
           {count > 0 && (
             <UsersTable
               users={usersCrop}
