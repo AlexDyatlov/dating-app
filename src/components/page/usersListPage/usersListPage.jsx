@@ -47,6 +47,7 @@ const UsersListPage = () => {
   const handleSearch = ({ target }) => {
     setText(prevState => target.value);
     setSelectedProf(undefined);
+    setCurrentPage(1);
   };
 
   const handleProfessionSelect = (item) => {
