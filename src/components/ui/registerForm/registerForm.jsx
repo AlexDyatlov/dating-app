@@ -1,12 +1,20 @@
 import React, { useEffect, useState } from 'react';
 
 import TextField from '../../common/form/textField/textField';
+import SelectField from '../../common/form/selectField/selectField';
+import RadioField from '../../common/form/radioField/radioField';
 
 import { validator } from '../../../utils/validator';
+import api from '../../../api';
 
 const RegisterForm = () => {
-  const [data, setData] = useState({ email: '', password: '' });
+  const [data, setData] = useState({ email: '', password: '', profession: '', sex: 'male' });
   const [errors, setErrors] = useState({});
+  const [professions, setProfession] = useState();
+
+  useEffect(() => {
+    api.professions.fetchAll().then((data) => setProfession(data));
+  }, []);
 
   const handleChange = ({ target }) => {
     setData((prevState) => ({
@@ -38,6 +46,11 @@ const RegisterForm = () => {
         message: 'Пароль должен состоять минимум из 8 символов',
         value: 8
       }
+    },
+    profession: {
+      isRequired: {
+        message: 'Обязательно выберите вашу профессию'
+      }
     }
   };
 
@@ -64,25 +77,44 @@ const RegisterForm = () => {
   return (
     <form onSubmit={handlerSubmit}>
       <TextField
-        label="Электронная почта"
-        id="email"
-        name="email"
+        label='Электронная почта'
+        id='email'
+        name='email'
         value={data.email}
         onChange={handleChange}
         error={errors.email}
       />
       <TextField
-        label="Пароль"
-        type="password"
-        id="password"
-        name="password"
+        label='Пароль'
+        type='password'
+        id='password'
+        name='password'
         value={data.password}
         onChange={handleChange}
         error={errors.password}
       />
+      <SelectField
+        label='Выберите свою профессию'
+        defaultOption='Choose...'
+        name='profession'
+        options={professions}
+        value={data.profession}
+        onChange={handleChange}
+        error={errors.profession}
+      />
+      <RadioField
+        options={[
+          { name: 'Male', value: 'male' },
+          { name: 'Female', value: 'female' },
+          { name: 'Other', value: 'other' }
+        ]}
+        value={data.sex}
+        name='sex'
+        onChange={handleChange}
+      />
       <button
-        className="btn btn-primary w-100 mx-auto"
-        type="submit"
+        className='btn btn-primary w-100 mx-auto'
+        type='submit'
         disabled={!isValid}
       >
         Submit
