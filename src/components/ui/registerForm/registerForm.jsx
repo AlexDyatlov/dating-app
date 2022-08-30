@@ -3,20 +3,23 @@ import React, { useEffect, useState } from 'react';
 import TextField from '../../common/form/textField/textField';
 import SelectField from '../../common/form/selectField/selectField';
 import RadioField from '../../common/form/radioField/radioField';
+import MultiSelectField from '../../common/form/multiSelect/multiSelect';
 
 import { validator } from '../../../utils/validator';
 import api from '../../../api';
 
 const RegisterForm = () => {
-  const [data, setData] = useState({ email: '', password: '', profession: '', sex: 'male' });
+  const [data, setData] = useState({ email: '', password: '', profession: '', sex: 'male', qualities: [] });
   const [errors, setErrors] = useState({});
   const [professions, setProfession] = useState();
+  const [qualities, setQualities] = useState({});
 
   useEffect(() => {
     api.professions.fetchAll().then((data) => setProfession(data));
+    api.qualities.fetchAll().then((data) => setQualities(data));
   }, []);
 
-  const handleChange = ({ target }) => {
+  const handleChange = (target) => {
     setData((prevState) => ({
       ...prevState,
       [target.name]: target.value
@@ -103,6 +106,7 @@ const RegisterForm = () => {
         error={errors.profession}
       />
       <RadioField
+        label='Выберите ваш пол'
         options={[
           { name: 'Male', value: 'male' },
           { name: 'Female', value: 'female' },
@@ -110,6 +114,12 @@ const RegisterForm = () => {
         ]}
         value={data.sex}
         name='sex'
+        onChange={handleChange}
+      />
+      <MultiSelectField
+        label='Выберите ваши качества'
+        name='qualities'
+        options={qualities}
         onChange={handleChange}
       />
       <button
