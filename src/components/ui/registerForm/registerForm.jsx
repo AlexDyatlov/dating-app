@@ -4,12 +4,20 @@ import TextField from '../../common/form/textField/textField';
 import SelectField from '../../common/form/selectField/selectField';
 import RadioField from '../../common/form/radioField/radioField';
 import MultiSelectField from '../../common/form/multiSelect/multiSelect';
+import CheckBoxField from '../../common/form/checkBoxField/checkBoxField';
 
 import { validator } from '../../../utils/validator';
 import api from '../../../api';
 
 const RegisterForm = () => {
-  const [data, setData] = useState({ email: '', password: '', profession: '', sex: 'male', qualities: [] });
+  const [data, setData] = useState({
+    email: '',
+    password: '',
+    profession: '',
+    sex: 'male',
+    qualities: [],
+    license: false
+  });
   const [errors, setErrors] = useState({});
   const [professions, setProfession] = useState();
   const [qualities, setQualities] = useState({});
@@ -53,6 +61,11 @@ const RegisterForm = () => {
     profession: {
       isRequired: {
         message: 'Обязательно выберите вашу профессию'
+      }
+    },
+    license: {
+      isRequired: {
+        message: 'Вы не можете использовать наш сервис без подтверждения лицензионного соглашения'
       }
     }
   };
@@ -122,6 +135,14 @@ const RegisterForm = () => {
         options={qualities}
         onChange={handleChange}
       />
+      <CheckBoxField
+        value={data.license}
+        onChange={handleChange}
+        name='license'
+        error={errors.license}
+      >
+        Подтвердить <a>лицензионное соглашение</a>
+      </CheckBoxField>
       <button
         className='btn btn-primary w-100 mx-auto'
         type='submit'
