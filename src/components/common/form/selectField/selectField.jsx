@@ -1,7 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const SelectField = ({ label, value, onChange, defaultOption, options, error }) => {
+const SelectField = ({
+  label,
+  value,
+  onChange,
+  defaultOption,
+  options,
+  name,
+  error
+}) => {
   const handleChange = ({ target }) => {
     onChange({ name: target.name, value: target.value });
   };
@@ -11,34 +19,33 @@ const SelectField = ({ label, value, onChange, defaultOption, options, error }) 
   };
 
   const optionsArray = !Array.isArray(options) && typeof options === 'object'
-    ? Object.keys(options).map(optionName => ({ name: options[optionName].name, value: options[optionName]._id }))
+    ? Object.values(options)
     : options;
 
   return (
     <div className='mb-4'>
-      <label htmlFor='validationCustom04' className='form-label'>
+      <label htmlFor={name} className='form-label'>
         {label}
       </label>
       <select
         className={getInputClasses()}
-        id='validationCustom04'
-        name='profession'
+        id={name}
+        name={name}
         value={value}
         onChange={handleChange}
       >
         <option disabled value=''>
           {defaultOption}
         </option>
-        {
-          optionsArray && optionsArray.map(option => (
+        {optionsArray.length > 0 &&
+          optionsArray.map(option => (
             <option
-              value={option.name}
-              key={option._id}
+              value={option.label}
+              key={option.value}
             >
-              {option.name}
+              {option.label}
             </option>
-          ))
-        }
+          ))}
       </select>
       {
         error && <div className='invalid-feedback'>{error}</div>
@@ -48,6 +55,7 @@ const SelectField = ({ label, value, onChange, defaultOption, options, error }) 
 };
 
 SelectField.propTypes = {
+  name: PropTypes.string,
   label: PropTypes.string,
   value: PropTypes.string,
   options: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
