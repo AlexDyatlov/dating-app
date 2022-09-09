@@ -13,8 +13,8 @@ const UserPage = ({ userId }) => {
     api.users.getById(userId).then((data) => setUser(data));
   }, []);
 
-  const handleBackToUsers = () => {
-    history.push('/users');
+  const handleEditUser = () => {
+    history.push(`/users/${userId}/edit`);
   };
 
   if (user) {
@@ -25,7 +25,7 @@ const UserPage = ({ userId }) => {
         <QualitiesList qualities={user.qualities} />
         <div>completedMeetings: {user.completedMeetings}</div>
         <h2>Rate: {user.rate}</h2>
-        <button onClick={handleBackToUsers}>Все пользователи</button>
+        <button onClick={handleEditUser}>Редактировать</button>
       </>
     );
   }
