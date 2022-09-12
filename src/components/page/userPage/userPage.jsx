@@ -14,7 +14,7 @@ const UserPage = ({ userId }) => {
   }, []);
 
   const handleEditUser = () => {
-    history.push(`/users/${userId}/edit`);
+    history.push(history.location.pathname + '/edit');
   };
 
   if (user) {
