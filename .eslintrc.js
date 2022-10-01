@@ -20,7 +20,8 @@ module.exports = {
     'space-before-function-paren': [
       'error',
       { anonymous: 'always', named: 'never' }],
-    quotes: ['error', 'single']
+    quotes: ['error', 'single'],
+    'no-extra-parens': 'off'
   },
   settings: {
     react: {

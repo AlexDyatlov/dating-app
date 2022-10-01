@@ -5,6 +5,7 @@ import TextField from '../../common/form/textField/textField';
 import SelectField from '../../common/form/selectField/selectField';
 import RadioField from '../../common/form/radioField/radioField';
 import MultiSelectField from '../../common/form/multiSelect/multiSelect';
+import BackHistoryButton from '../../common/backButton/backButton';
 
 import { validator } from '../../../utils/validator';
 import api from '../../../api';
@@ -135,6 +136,7 @@ const EditUserPage = () => {
 
   return (
     <div className='container mt-5'>
+      <BackHistoryButton />
       <div className='row'>
         <div className='col-md-6 offset-md-3 shadow p-4'>
           {!isLoading && Object.keys(professions).length > 0
