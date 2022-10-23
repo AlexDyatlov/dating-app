@@ -4,6 +4,7 @@ import _ from 'lodash';
 
 import api from '../../../api';
 import { paginate } from '../../../utils/paginate';
+import { useUsers } from '../../../hooks/useUsers';
 
 import Pagination from '../../common/pagination/pagination';
 import GroupList from '../../common/groupList/groupList';
@@ -16,28 +17,25 @@ const UsersListPage = () => {
   const [profession, setProfession] = useState();
   const [selectedProf, setSelectedProf] = useState();
   const [sortBy, setSortBy] = useState({ path: 'name', order: 'asc', icon: 'up' });
-  const [users, setUsers] = useState();
   const [text, setText] = useState();
 
-  useEffect(() => {
-    api.users.fetchAll().then((data) => setUsers(data));
-  }, []);
+  const { users } = useUsers();
 
   const handleDeleteUser = (userId) => {
-    setUsers(users.filter((user) => user._id !== userId));
+    // setUsers(users.filter((user) => user._id !== userId));
+    console.log(userId);
   };
 
   const handleToggleBookMark = (id) => {
-    setUsers(
-      users.map((user) =>
-        user._id === id
-          ? {
-            ...user,
-            bookmark: !user.bookmark
-          }
-          : user
-      )
+    const newArray = users.map((user) =>
+      user._id === id
+        ? {
+          ...user,
+          bookmark: !user.bookmark
+        }
+        : user
     );
+    console.log(newArray);
   };
 
   const handlePageChange = (pageIndex) => {

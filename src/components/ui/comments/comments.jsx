@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { orderBy } from 'lodash-es';
+import { orderBy } from 'lodash';
 import { useParams } from 'react-router';
 
 import AddCommentForm from '../../common/comments/addCommentForm';
