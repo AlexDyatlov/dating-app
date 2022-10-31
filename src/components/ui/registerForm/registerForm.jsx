@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import TextField from '../../common/form/textField/textField';
 import SelectField from '../../common/form/selectField/selectField';
@@ -9,8 +10,10 @@ import CheckBoxField from '../../common/form/checkBoxField/checkBoxField';
 import { validator } from '../../../utils/validator';
 import { useQualities } from '../../../hooks/useQuality';
 import { useProfessions } from '../../../hooks/useProfession';
+import { useAuth } from '../../../hooks/useAuth';
 
 const RegisterForm = () => {
+  const history = useHistory();
   const [data, setData] = useState({
     email: '',
     password: '',
@@ -37,7 +40,7 @@ const RegisterForm = () => {
       [target.name]: target.value
     }));
   };
-
+  const { signUp } = useAuth();
   const validatorConfig = {
     email: {
       isRequired: {
@@ -87,7 +90,7 @@ const RegisterForm = () => {
 
   const isValid = Object.keys(errors).length === 0;
 
-  const handlerSubmit = (e) => {
+  const handlerSubmit = async (e) => {
     e.preventDefault();
     const isValid = validate();
     if (!isValid) return;
@@ -95,7 +98,14 @@ const RegisterForm = () => {
       ...data,
       qualities: data.qualities.map(q => q.value)
     };
-    console.log(newData);
+
+    history.push('/');
+
+    try {
+      await signUp(newData);
+    } catch (error) {
+      setErrors(error);
+    }
   };
 
   return (
