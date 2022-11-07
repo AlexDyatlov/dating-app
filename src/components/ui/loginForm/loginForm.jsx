@@ -5,44 +5,32 @@ import TextField from '../../common/form/textField/textField';
 import CheckBoxField from '../../common/form/checkBoxField/checkBoxField';
 
 import { validator } from '../../../utils/validator';
-import { useLogin } from '../../../hooks/useLogin';
+import { useAuth } from '../../../hooks/useAuth';
 
 const LoginForm = () => {
   const history = useHistory();
   const [data, setData] = useState({ email: '', password: '', stayOn: false });
   const [errors, setErrors] = useState({});
+  const [enterError, setEnterError] = useState(null);
+  const { logIn } = useAuth();
 
   const handleChange = (target) => {
     setData((prevState) => ({
       ...prevState,
       [target.name]: target.value
     }));
+    setEnterError(null);
   };
-
-  const { logIn } = useLogin();
 
   const validatorConfig = {
     email: {
       isRequired: {
         message: 'Электронная почта обязательна для заполнения'
-      },
-      isEmail: {
-        message: 'Email введен некорректно'
       }
     },
     password: {
       isRequired: {
         message: 'Пароль обязателен для заполнения'
-      },
-      isCapitalSymbol: {
-        message: 'Пароль должен содержать хотя бы одну заглавную букву'
-      },
-      isContainDigit: {
-        message: 'Пароль должен содержать хотя бы одно число'
-      },
-      min: {
-        message: 'Пароль должен состоять минимум из 8 символов',
-        value: 8
       }
     }
   };
@@ -53,7 +41,6 @@ const LoginForm = () => {
 
   const validate = () => {
     const errors = validator(data, validatorConfig);
-
     setErrors(errors);
     return Object.keys(errors).length === 0;
   };
@@ -64,16 +51,12 @@ const LoginForm = () => {
     e.preventDefault();
     const isValid = validate();
     if (!isValid) return;
-    const newData = {
-      ...data
-    };
-
-    history.push('/');
 
     try {
-      await logIn(newData);
+      await logIn(data);
+      history.push('/');
     } catch (error) {
-      setErrors(error);
+      setEnterError(error.message);
     }
   };
 
@@ -103,10 +86,11 @@ const LoginForm = () => {
       >
         Оставаться в системе
       </CheckBoxField>
+      {enterError && <p className="text-danger">{enterError}</p>}
       <button
         className="btn btn-primary w-100 mx-auto"
         type="submit"
-        disabled={!isValid}
+        disabled={!isValid || enterError}
       >
         Submit
       </button>
