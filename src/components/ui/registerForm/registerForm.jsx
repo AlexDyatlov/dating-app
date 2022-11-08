@@ -19,18 +19,19 @@ const RegisterForm = () => {
     password: '',
     profession: '',
     sex: 'male',
+    name: '',
     qualities: [],
     license: false
   });
   const [errors, setErrors] = useState({});
   const { qualities } = useQualities();
-  const qualitiesList = qualities.map(q => ({
+  const qualitiesList = qualities.map((q) => ({
     label: q.name,
     value: q._id
   }));
 
   const { professions } = useProfessions();
-  const professionsList = professions.map(p => ({
+  const professionsList = professions.map((p) => ({
     label: p.name,
     value: p._id
   }));
@@ -48,6 +49,15 @@ const RegisterForm = () => {
       },
       isEmail: {
         message: 'Email введен некорректно'
+      }
+    },
+    name: {
+      isRequired: {
+        message: 'Имя обязательно для заполнения'
+      },
+      min: {
+        message: 'Имя должно состоять минимум из 3 символов',
+        value: 3
       }
     },
     password: {
@@ -72,7 +82,8 @@ const RegisterForm = () => {
     },
     license: {
       isRequired: {
-        message: 'Вы не можете использовать наш сервис без подтверждения лицензионного соглашения'
+        message:
+          'Вы не можете использовать наш сервис без подтверждения лицензионного соглашения'
       }
     }
   };
@@ -96,13 +107,12 @@ const RegisterForm = () => {
     if (!isValid) return;
     const newData = {
       ...data,
-      qualities: data.qualities.map(q => q.value)
+      qualities: data.qualities.map((q) => q.value)
     };
-
-    history.push('/');
 
     try {
       await signUp(newData);
+      history.push('/');
     } catch (error) {
       setErrors(error);
     }
@@ -111,45 +121,52 @@ const RegisterForm = () => {
   return (
     <form onSubmit={handlerSubmit}>
       <TextField
-        label='Электронная почта'
-        id='email'
-        name='email'
+        label="Электронная почта"
+        id="email"
+        name="email"
         value={data.email}
         onChange={handleChange}
         error={errors.email}
       />
       <TextField
-        label='Пароль'
-        type='password'
-        id='password'
-        name='password'
+        label="Имя"
+        name="name"
+        value={data.name}
+        onChange={handleChange}
+        error={errors.name}
+      />
+      <TextField
+        label="Пароль"
+        type="password"
+        id="password"
+        name="password"
         value={data.password}
         onChange={handleChange}
         error={errors.password}
       />
       <SelectField
-        label='Выберите свою профессию'
-        defaultOption='Choose...'
-        name='profession'
+        label="Выберите свою профессию"
+        defaultOption="Choose..."
+        name="profession"
         options={professionsList}
         value={data.profession}
         onChange={handleChange}
         error={errors.profession}
       />
       <RadioField
-        label='Выберите ваш пол'
+        label="Выберите ваш пол"
         options={[
           { name: 'Male', value: 'male' },
           { name: 'Female', value: 'female' },
           { name: 'Other', value: 'other' }
         ]}
         value={data.sex}
-        name='sex'
+        name="sex"
         onChange={handleChange}
       />
       <MultiSelectField
-        label='Выберите ваши качества'
-        name='qualities'
+        label="Выберите ваши качества"
+        name="qualities"
         options={qualitiesList}
         onChange={handleChange}
         defaultValue={data.qualities}
@@ -157,14 +174,14 @@ const RegisterForm = () => {
       <CheckBoxField
         value={data.license}
         onChange={handleChange}
-        name='license'
+        name="license"
         error={errors.license}
       >
         Подтвердить <a>лицензионное соглашение</a>
       </CheckBoxField>
       <button
-        className='btn btn-primary w-100 mx-auto'
-        type='submit'
+        className="btn btn-primary w-100 mx-auto"
+        type="submit"
         disabled={!isValid}
       >
         Submit
