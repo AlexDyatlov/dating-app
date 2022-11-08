@@ -1,8 +1,11 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 
+import { useAuth } from '../../../hooks/useAuth';
+
 const UserCard = ({ user }) => {
   const history = useHistory();
+  const { currentUser } = useAuth();
 
   const handleEditUser = () => {
     history.push(history.location.pathname + '/edit');
@@ -11,9 +14,14 @@ const UserCard = ({ user }) => {
   return (
     <div className="card mb-3">
       <div className="card-body">
-        <button className="position-absolute top-0 end-0 btn btn-light btn-sm" onClick={handleEditUser}>
-          <i className="bi bi-gear"></i>
-        </button>
+        {currentUser._id === user._id && (
+          <button
+            className="position-absolute top-0 end-0 btn btn-light btn-sm"
+            onClick={handleEditUser}
+          >
+            <i className="bi bi-gear"></i>
+          </button>
+        )}
         <div className="d-flex flex-column align-items-center text-center position-relative">
           <img
             src={user.image}
