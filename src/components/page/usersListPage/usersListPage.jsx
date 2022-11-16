@@ -4,7 +4,6 @@ import _ from 'lodash';
 import { useSelector } from 'react-redux';
 
 import { paginate } from '../../../utils/paginate';
-import { useUser } from '../../../hooks/useUsers';
 import { useAuth } from '../../../hooks/useAuth';
 
 import Pagination from '../../common/pagination/pagination';
@@ -12,6 +11,7 @@ import GroupList from '../../common/groupList/groupList';
 import Message from '../../ui/message/message';
 import UsersTable from '../../ui/usersTable/usersTable';
 import { getProfessions, getProfessionsLoadingStatus } from '../../../store/professions';
+import { getUsersList } from '../../../store/users';
 
 const UsersListPage = () => {
   const pageSize = 8;
@@ -21,7 +21,7 @@ const UsersListPage = () => {
   const [text, setText] = useState('');
   const professions = useSelector(getProfessions());
   const professionLoading = useSelector(getProfessionsLoadingStatus());
-  const { users } = useUser();
+  const users = useSelector(getUsersList());
   const { currentUser } = useAuth();
 
   const handleDeleteUser = (userId) => {

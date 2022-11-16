@@ -12,12 +12,14 @@ import ProtectedRoute from './components/common/protectedRoute/protectedRoute';
 import LogOut from './layouts/logOut/logOut';
 import { loadQualitiesList } from './store/qualities';
 import { loadProfessionsList } from './store/professions';
+import { loadUsersList } from './store/users';
 
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(loadQualitiesList());
     dispatch(loadProfessionsList());
+    dispatch(loadUsersList());
   }, []);
 
   return (
