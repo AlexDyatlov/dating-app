@@ -14,19 +14,13 @@ import { useAuth } from '../../../hooks/useAuth';
 
 const EditUserPage = () => {
   const history = useHistory();
-  const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState({
-    email: '',
-    name: '',
-    profession: '',
-    sex: 'male',
-    qualities: []
-  });
+  const [isLoading, setIsLoading] = useState(true);
+  const [data, setData] = useState();
   const { currentUser, updateUserData } = useAuth();
   const [errors, setErrors] = useState({});
 
-  const { professions } = useProfessions();
-  const { qualities } = useQualities();
+  const { professions, isLoading: professionLoading } = useProfessions();
+  const { qualities, isLoading: qualitiesLoading } = useQualities();
   const professionsList = professions.map((p) => ({
     label: p.name,
     value: p._id
@@ -35,6 +29,36 @@ const EditUserPage = () => {
     label: q.name,
     value: q._id
   }));
+
+  function getQualitiesListByIds(qualitiesIds) {
+    const qualitiesArray = [];
+    for (const qualId of qualitiesIds) {
+      for (const quality of qualities) {
+        if (quality._id === qualId) {
+          qualitiesArray.push(quality);
+          break;
+        }
+      }
+    }
+    return qualitiesArray;
+  }
+
+  const transformData = (data) => {
+    const result = getQualitiesListByIds(data).map((qual) => ({
+      label: qual.name,
+      value: qual._id
+    }));
+    return result;
+  };
+
+  useEffect(() => {
+    if (!professionLoading && !qualitiesLoading && currentUser && !data) {
+      setData({
+        ...currentUser,
+        qualities: transformData(currentUser.qualities)
+      });
+    }
+  }, [professionLoading, qualitiesLoading, currentUser, data]);
 
   useEffect(() => {
     if (data && isLoading) setIsLoading(false);
@@ -86,7 +110,7 @@ const EditUserPage = () => {
 
     history.push(`/users/${currentUser._id}`);
   };
-  console.log(data);
+
   return (
     <div className='container mt-5'>
       <BackHistoryButton />
@@ -120,26 +144,26 @@ const EditUserPage = () => {
                 error={errors.profession}
               />
               <RadioField
-                label='Выберите ваш пол'
+                label="Выберите ваш пол"
                 options={[
                   { name: 'Male', value: 'male' },
                   { name: 'Female', value: 'female' },
                   { name: 'Other', value: 'other' }
                 ]}
                 value={data.sex}
-                name='sex'
+                name="sex"
                 onChange={handleChange}
               />
               <MultiSelectField
-                label='Выберите ваши качества'
-                name='qualities'
+                label="Выберите ваши качества"
+                name="qualities"
                 options={qualitiesList}
                 onChange={handleChange}
                 defaultValue={data.qualities}
               />
               <button
-                className='btn btn-primary w-100 mx-auto'
-                type='submit'
+                className="btn btn-primary w-100 mx-auto"
+                type="submit"
                 disabled={!isValid}
               >
                 Обновить
