@@ -9,9 +9,9 @@ import MultiSelectField from '../../common/form/multiSelect/multiSelect';
 import BackHistoryButton from '../../common/backButton/backButton';
 
 import { validator } from '../../../utils/validator';
-import { useProfessions } from '../../../hooks/useProfession';
 import { useAuth } from '../../../hooks/useAuth';
 import { getQualities, getQualitiesLoadingStatus } from '../../../store/qualities';
+import { getProfessions, getProfessionsLoadingStatus } from '../../../store/professions';
 
 const EditUserPage = () => {
   const history = useHistory();
@@ -20,7 +20,8 @@ const EditUserPage = () => {
   const { currentUser, updateUserData } = useAuth();
   const [errors, setErrors] = useState({});
 
-  const { professions, isLoading: professionLoading } = useProfessions();
+  const professions = useSelector(getProfessions());
+  const professionLoading = useSelector(getProfessionsLoadingStatus());
   const qualities = useSelector(getQualities());
   const qualitiesLoading = useSelector(getQualitiesLoadingStatus());
   const professionsList = professions.map((p) => ({

@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import { useSelector } from 'react-redux';
 
 import { paginate } from '../../../utils/paginate';
 import { useUser } from '../../../hooks/useUsers';
-import { useProfessions } from '../../../hooks/useProfession';
 import { useAuth } from '../../../hooks/useAuth';
 
 import Pagination from '../../common/pagination/pagination';
 import GroupList from '../../common/groupList/groupList';
 import Message from '../../ui/message/message';
 import UsersTable from '../../ui/usersTable/usersTable';
+import { getProfessions, getProfessionsLoadingStatus } from '../../../store/professions';
 
 const UsersListPage = () => {
   const pageSize = 8;
@@ -18,7 +19,8 @@ const UsersListPage = () => {
   const [selectedProf, setSelectedProf] = useState();
   const [sortBy, setSortBy] = useState({ path: 'name', order: 'asc', icon: 'up' });
   const [text, setText] = useState('');
-  const { isLoading: professionsLoading, professions } = useProfessions();
+  const professions = useSelector(getProfessions());
+  const professionLoading = useSelector(getProfessionsLoadingStatus());
   const { users } = useUser();
   const { currentUser } = useAuth();
 
@@ -87,7 +89,7 @@ const UsersListPage = () => {
 
     return (
       <div className="d-flex">
-        {professions && !professionsLoading && (
+        {professions && !professionLoading && (
           <div className="d-flex flex-column flex-shrink-0 p-3">
             <GroupList
               selectedItem={selectedProf}

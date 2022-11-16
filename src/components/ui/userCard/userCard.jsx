@@ -2,6 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { useAuth } from '../../../hooks/useAuth';
+import Profession from '../profession/profession';
 
 const UserCard = ({ user }) => {
   const history = useHistory();
@@ -31,7 +32,7 @@ const UserCard = ({ user }) => {
           />
           <div className="mt-3">
             <h4>{user.name}</h4>
-            <p className="text-secondary mb-1">{user.profession.name}</p>
+            <Profession id={user.profession} />
             <div className="text-muted">
               <i className="bi bi-caret-down-fill text-primary" role="button"></i>
               <i className="bi bi-caret-up text-secondary" role="button"></i>
