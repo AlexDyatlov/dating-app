@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import TextField from '../../common/form/textField/textField';
 import SelectField from '../../common/form/selectField/selectField';
@@ -8,9 +9,9 @@ import MultiSelectField from '../../common/form/multiSelect/multiSelect';
 import CheckBoxField from '../../common/form/checkBoxField/checkBoxField';
 
 import { validator } from '../../../utils/validator';
-import { useQualities } from '../../../hooks/useQuality';
 import { useProfessions } from '../../../hooks/useProfession';
 import { useAuth } from '../../../hooks/useAuth';
+import { getQualities } from '../../../store/qualities';
 
 const RegisterForm = () => {
   const history = useHistory();
@@ -24,7 +25,7 @@ const RegisterForm = () => {
     license: false
   });
   const [errors, setErrors] = useState({});
-  const { qualities } = useQualities();
+  const qualities = useSelector(getQualities());
   const qualitiesList = qualities.map((q) => ({
     label: q.name,
     value: q._id

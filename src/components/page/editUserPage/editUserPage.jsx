@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import TextField from '../../common/form/textField/textField';
 import SelectField from '../../common/form/selectField/selectField';
@@ -9,8 +10,8 @@ import BackHistoryButton from '../../common/backButton/backButton';
 
 import { validator } from '../../../utils/validator';
 import { useProfessions } from '../../../hooks/useProfession';
-import { useQualities } from '../../../hooks/useQuality';
 import { useAuth } from '../../../hooks/useAuth';
+import { getQualities, getQualitiesLoadingStatus } from '../../../store/qualities';
 
 const EditUserPage = () => {
   const history = useHistory();
@@ -20,7 +21,8 @@ const EditUserPage = () => {
   const [errors, setErrors] = useState({});
 
   const { professions, isLoading: professionLoading } = useProfessions();
-  const { qualities, isLoading: qualitiesLoading } = useQualities();
+  const qualities = useSelector(getQualities());
+  const qualitiesLoading = useSelector(getQualitiesLoadingStatus());
   const professionsList = professions.map((p) => ({
     label: p.name,
     value: p._id
