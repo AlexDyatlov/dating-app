@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  getProfessionsById,
+  getProfessionById,
   getProfessionsLoadingStatus,
   loadProfessionsList
 } from '../../../store/professions';
@@ -13,7 +13,7 @@ const Profession = ({ id }) => {
 
   if (isLoading) return 'Loading...';
 
-  const prof = useSelector(getProfessionsById(id));
+  const prof = useSelector(getProfessionById(id));
 
   useEffect(() => {
     dispatch(loadProfessionsList());
