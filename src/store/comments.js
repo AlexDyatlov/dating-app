@@ -1,6 +1,8 @@
 import { createAction, createSlice } from '@reduxjs/toolkit';
+import { nanoid } from 'nanoid';
 
 import commentService from '../services/commentService';
+import { getCurrentUserId } from './users';
 
 const commentsSlice = createSlice({
   name: 'comments',
@@ -54,20 +56,29 @@ export const loadCommentsList = (userId) => async (dispatch) => {
   }
 };
 
-export const createNewComment = (payload) => async (dispatch) => {
-  dispatch(commentCreateRequested());
+export const createNewComment = (payload) => async (dispatch, getState) => {
+  dispatch(commentCreateRequested(payload));
+  const comment = {
+    ...payload,
+    _id: nanoid(),
+    created_at: Date.now(),
+    userId: getCurrentUserId()(getState())
+  };
   try {
-    const { content } = await commentService.createComment(payload);
+    const { content } = await commentService.createComment(comment);
     dispatch(commentsCreated(content));
   } catch (error) {
     dispatch(createCommentFailed(error.message));
   }
 };
 
-export const deleteComment = (payload) => async (dispatch) => {
+export const deleteComment = (commentId) => async (dispatch) => {
   dispatch(commentDeleteRequested());
   try {
-    const { content } = await commentService.removeComment(payload);
+    const { content } = await commentService.removeComment(commentId);
+    if (content === null) {
+      dispatch(commentsRemoved(commentId));
+    }
     dispatch(commentsRemoved(content));
   } catch (error) {
     dispatch(deleteCommentFailed(error.message));
