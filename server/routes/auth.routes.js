@@ -127,9 +127,9 @@ router.post('/token', async (req, res) => {
     });
 
     await tokenService.save(data._id, tokens.refreshToken);
-    console.log('data', data);
+
     res.status(200).send({ ...tokens, userId: data._id });
-  } catch (error) {
+  } catch (e) {
     res.status(500).json({
       message: 'На сервере произошла ошибка. Попробуйте позже.'
     });
