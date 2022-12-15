@@ -38,6 +38,14 @@ class TokenService {
     }
   }
 
+  validateAccess(accessToken) {
+    try {
+      return jwt.verify(accessToken, accessSecret);
+    } catch (e) {
+      return null;
+    }
+  }
+
   async findToken(refreshToken) {
     try {
       return await Token.find({ refreshToken });
