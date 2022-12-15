@@ -1,4 +1,5 @@
 const express = require('express');
+const auth = require('../middleware/auth.middleware');
 const router = express.Router({ mergeParams: true });
 const Comment = require('../models/Comment');
 
